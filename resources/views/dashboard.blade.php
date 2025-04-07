@@ -19,8 +19,11 @@
 
                     {{ __('You are logged in!') }}
                 </div>
+
             </div>
         </div>
     </div>
+
+    <a href="{{route('videogames.index')}}" class="btn btn-primary mt-4">Vai ai videogiochi!</a>
 </div>
 @endsection
