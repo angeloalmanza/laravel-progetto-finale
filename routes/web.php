@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PlatformController;
 use App\Http\Controllers\Admin\VideogameController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource("videogames", VideogameController::class)
+    ->middleware(['auth', 'verified']);
+
+Route::resource("platforms", PlatformController::class)
     ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

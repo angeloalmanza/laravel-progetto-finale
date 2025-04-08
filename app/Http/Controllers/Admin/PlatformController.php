@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Platform;
 use Illuminate\Http\Request;
 
 class PlatformController extends Controller
@@ -12,7 +13,9 @@ class PlatformController extends Controller
      */
     public function index()
     {
-        //
+        $platforms = Platform::all();
+
+        return view("platforms.index", compact("platforms"));
     }
 
     /**
@@ -20,7 +23,7 @@ class PlatformController extends Controller
      */
     public function create()
     {
-        //
+        return view("platforms.create");
     }
 
     /**
@@ -28,38 +31,56 @@ class PlatformController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $newPlatform = new Platform();
+
+        $newPlatform->name = $data['name'];
+        $newPlatform->description = $data['description'];
+
+        $newPlatform->save();
+
+        return redirect()->route("platforms.show", $newPlatform);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Platform $platform)
     {
-        //
+        return view("platforms.show", compact("platform"));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Platform $platform)
     {
-        //
+        return view("platforms.edit", compact("platform"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Platform $platform)
     {
-        //
+        $data = $request->all();
+
+        $platform->name = $data['name'];
+        $platform->description = $data['description'];
+
+        $platform->update();
+
+        return redirect()->route("platforms.show", $platform);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Platform $platform)
     {
-        //
+        $platform->delete();
+
+        return redirect()->route("platforms.index");
     }
 }
