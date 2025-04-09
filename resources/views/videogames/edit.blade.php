@@ -21,6 +21,15 @@
         </select>
     </div>
 
+    <div class="form-control mb-3 d-flex flex-wrap">
+        @foreach($genres as $genre)
+            <div class="tag me-2">
+                <input type="checkbox" name="genres[]" value="{{$genre->id}}" id="genre-{{$genre->id}}" {{$videogame->genres->contains($genre->id) ? 'checked' : ''}}>
+                <label for="genre-{{$genre->id}}">{{$genre->name}}</label>
+            </div>
+        @endforeach
+    </div>
+
     <div class="form-control mb-3 d-flex flex-column">
         <label for="release_year">Anno di rilascio</label>
         <select name="release_year" id="release_year">

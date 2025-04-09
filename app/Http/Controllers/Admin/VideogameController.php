@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Genre;
 use App\Models\Platform;
 use App\Models\Videogame;
 use Illuminate\Http\Request;
@@ -25,7 +26,9 @@ class VideogameController extends Controller
     {
         $platforms = Platform::all();
 
-        return view("videogames.create", compact("platforms"));
+        $genres = Genre::all();
+
+        return view("videogames.create", compact("platforms", "genres"));
     }
 
     /**
@@ -43,6 +46,10 @@ class VideogameController extends Controller
         $newVideogame->platform_id = $data['platform_id'];
 
         $newVideogame->save();
+
+        if($request->has('genres')){
+            $newVideogame->genres()->attach($data['genres']);
+       }
 
         return redirect()->route("videogames.show", $newVideogame);
     }
@@ -62,7 +69,9 @@ class VideogameController extends Controller
     {
         $platforms = Platform::all();
 
-        return view("videogames.edit", compact('videogame', 'platforms'));
+        $genres = Genre::all();
+
+        return view("videogames.edit", compact('videogame', 'platforms', 'genres'));
     }
 
     /**
@@ -78,6 +87,12 @@ class VideogameController extends Controller
         $videogame->platform_id = $data['platform_id'];
 
         $videogame->update();
+
+        if($request->has('genres')){
+            $videogame->genres()->sync($data['genres']);
+        }else{
+            $videogame->genres()->detach();
+        }
 
         return redirect()->route("videogames.show", $videogame);
     }
