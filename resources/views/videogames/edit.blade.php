@@ -3,7 +3,7 @@
 @section("title", "Modifica il videogioco")
 
 @section("content")
-<form action="{{route("videogames.update", $videogame)}}" method="POST">
+<form action="{{route("videogames.update", $videogame)}}" method="POST" enctype="multipart/form-data">
     @csrf
     @method("PUT")
 
@@ -42,6 +42,13 @@
         </select>
     </div>
 
+    <div class="form-control mb-3 d-flex flex-column">
+        <label for="image">Immagine di copertina</label>
+        <input type="file" id="image" name="image">
+        @if ($videogame->image)
+            <img src="{{asset("storage/" .$videogame->image)}}" alt="" class="w-25">
+        @endif
+    </div>
 
     <div class="form-control mb-3 d-flex flex-column">
         <label for="description">Descrizione videogioco</label>

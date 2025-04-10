@@ -5,6 +5,8 @@
 @section("content")
 <div class="card w-75 mt-4">
   <div class="card-body">
+    <img src="{{asset("storage/" .$videogame->image)}}" alt="" class="mb-3">
+
     <p><strong>Piattaforma:</strong> {{ $videogame->platform->name ?? '-' }}</p>
 
      @if(count($videogame->genres) > 0)
@@ -14,6 +16,7 @@
     @endif
     
     <p class="card-text">{{$videogame->description}}</p>
+
     <p><strong>Anno di uscita: </strong>{{$videogame->release_year}}</p>
   </div>
 </div>

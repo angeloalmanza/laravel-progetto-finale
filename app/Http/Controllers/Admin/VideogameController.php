@@ -7,6 +7,7 @@ use App\Models\Genre;
 use App\Models\Platform;
 use App\Models\Videogame;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class VideogameController extends Controller
 {
@@ -44,6 +45,11 @@ class VideogameController extends Controller
         $newVideogame->description = $data['description'];
         $newVideogame->release_year = $data['release_year'];
         $newVideogame->platform_id = $data['platform_id'];
+
+        if(array_key_exists("image", $data)) {
+            $img_url = Storage::putFile("videogames", $data['image']);
+        }
+        $newVideogame->image = $img_url;
 
         $newVideogame->save();
 
@@ -86,6 +92,12 @@ class VideogameController extends Controller
         $videogame->release_year = $data['release_year'];
         $videogame->platform_id = $data['platform_id'];
 
+        if(array_key_exists("image", $data)) {
+            Storage::delete($videogame->image);
+            $img_url = Storage::putFile("videogames", $data['image']);
+            $videogame->image = $img_url;
+        }
+
         $videogame->update();
 
         if($request->has('genres')){
@@ -102,6 +114,10 @@ class VideogameController extends Controller
      */
     public function destroy(Videogame $videogame)
     {
+        if($videogame->image){
+            Storage::delete($videogame->image);
+        }
+        
         $videogame->delete();
 
         return redirect()->route("videogames.index");

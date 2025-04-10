@@ -3,7 +3,7 @@
 @section("title", "Crea un nuovo videogioco")
 
 @section("content")
-<form action="{{route("videogames.store")}}" method="POST">
+<form action="{{route("videogames.store")}}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <div class="form-control mb-3 d-flex flex-column">
@@ -36,6 +36,11 @@
                 <option value="{{ $year }}">{{ $year }}</option>
             @endfor
         </select>
+    </div>
+
+    <div class="form-control mb-3 d-flex flex-column">
+        <label for="image">Immagine di copertina</label>
+        <input type="file" id="image" name="image">
     </div>
 
     <div class="form-control mb-3 d-flex flex-column">
