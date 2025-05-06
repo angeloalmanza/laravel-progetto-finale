@@ -29,4 +29,7 @@ Route::resource("platforms", PlatformController::class)
 Route::resource("genres", GenreController::class)
     ->middleware(['auth', 'verified']);
 
+Route::get('/esercizio', function() {
+    return view('esercizio');
+});
 require __DIR__.'/auth.php';
